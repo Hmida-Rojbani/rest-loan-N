@@ -12,14 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 import de.tekup.loan.rest.msgs.CustomerRequest;
 import de.tekup.loan.rest.msgs.WsResponse;
 import de.tekup.loan.rest.services.LoanService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api")
+@Api(value = "LoanEligeblityIndicator", description = "Service to check eligeblity of client who want to get a bank loan")
 public class LoanRestController {
 	
 	@Autowired
 	private LoanService service;
 	
+	@ApiOperation(value = "check cusomer for a loan", response = WsResponse.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfuly a client can get a credit")
+	})
 	@PostMapping(path = "/get-status", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
 								, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<WsResponse> checkEligeblity(@RequestBody CustomerRequest request) {
